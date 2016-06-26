@@ -3,7 +3,7 @@
 ## Websocket
 
 A server/client bundle setup to solve some personal issues I have with other solutions out there.
-The current version is verry young and serv
+The current version is very young. The project is setup for me to be able to work on the project and reference it.
 
 ### Example
 
