@@ -36,8 +36,8 @@ function(socket)
   {
     host  : 'localhost',
     debug : true
-  },
-  function(socket)
+  })
+  .then(function(socket)
   {
     socket.on('foo', function(dto)
     {
