@@ -96,7 +96,8 @@ define(function()
     socket = new Socket(options, function()
     {
       ready = true;
-      while(var observer = observers.shift())
+      var observer;
+      while(observer = observers.shift())
         observer(socket);
     }),
     promise =
