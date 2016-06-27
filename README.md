@@ -30,9 +30,9 @@ define(
 [
   'socket.client.js'
 ],
-function(socket)
+function(client)
 {
-  socket(
+  client(
   {
     host  : 'localhost',
     debug : true
