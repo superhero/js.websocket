@@ -26,7 +26,7 @@ module.exports = (options) =>
   ({
     emit: (eventName, data, gl0bal = false) =>
     {
-      const response = require('/websocket/encode')(JSON.stringify(
+      const response = require('app/service/websocket/encode')(JSON.stringify(
       {
         event : eventName,
         data  : data
@@ -96,9 +96,10 @@ module.exports = (options) =>
         try
         {
           const
-          msg = require('/websocket/decode')(buffer),
+          msg = require('app/service/websocket/decode')(buffer),
           dto = JSON.parse(msg);
 
+          debug(`recived message: ${msg}`);
           setImmediate(() => bus.emit(dto.event, emitService, dto.data));
         }
         catch(e)
@@ -109,8 +110,8 @@ module.exports = (options) =>
 
       // accept key
       const
-      request = require('/websocket/parse-request')(buffer),
-      keygen  = require('/websocket/accept-key'),
+      request = require('app/service/parse-request')(buffer),
+      keygen  = require('app/service/websocket/accept-key'),
       key     = keygen(request.headers['Sec-WebSocket-Key']);
 
       // handshake
