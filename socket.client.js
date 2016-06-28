@@ -72,8 +72,11 @@ define(function()
         event : event,
         data  : data
       };
-      socket.send(JSON.stringify(dto));
-      debug('emitted', dto);
+      setTimeout(function()
+      {
+        socket.send(JSON.stringify(dto));
+        debug('emitted', dto);
+      });
       return this;
     };
 
