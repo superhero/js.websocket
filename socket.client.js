@@ -1,10 +1,12 @@
 define(function()
 {
-  function Socket(options, callback)
+  function Socket(options, onConnected)
   {
     var
     pid,
     observers = {},
+    initQueue = [],
+    connected = false,
     self      = this,
     config    =
     {
@@ -26,12 +28,19 @@ define(function()
       debug('connection open', event);
       self.emit('connected');
       pid = setInterval(function(){self.emit('ping')}, 25000);
-      callback();
+
+      // this set is used for the init queue (connection promise)
+      connected = true;
+      onConnected && onConnected();
+      var observer;
+      while(observer = initQueue.shift())
+        observer.call(self);
     };
 
     socket.onclose = function(event)
     {
       debug('conection closed', event);
+      connected = false;
       clearInterval(pid);
     };
 
@@ -45,6 +54,15 @@ define(function()
 
       for(var i = 0, l = obs ? obs.length : 0; i < l; i++)
         obs[i].call(self, dto.data);
+    };
+
+    // This method works like a promise, a promise that the connection is
+    // established
+    this.connected = function(observer)
+    {
+      connected
+      ? observer.call(self)
+      : initQueue.push(observer);
     };
 
     this.emit = function(event, data)
@@ -86,30 +104,8 @@ define(function()
     };
   }
 
-  return function(options)
+  return function(options, onConnected)
   {
-    // keeping it like this sense we don't have any good polyfill for a
-    // real promise.. @todo
-    var
-    observers = [],
-    ready = false,
-    socket = new Socket(options, function()
-    {
-      ready = true;
-      var observer;
-      while(observer = observers.shift())
-        observer(socket);
-    }),
-    promise =
-    {
-      then: function(observer)
-      {
-        ready
-        ? observer(socket)
-        : observers.push(observer);
-      }
-    };
-
-    return promise;
+    return new Socket(options, onConnected);
   };
 });
