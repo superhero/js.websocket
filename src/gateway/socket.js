@@ -26,11 +26,12 @@ module.exports = (options) =>
   ({
     emit: (eventName, data, gl0bal = false) =>
     {
-      const response = require('app/service/websocket/encode')(JSON.stringify(
-      {
-        event : eventName,
-        data  : data
-      }));
+      const response  = require('@superhero/websocket/service/encode')
+                        (JSON.stringify(
+                        {
+                          event : eventName,
+                          data  : data
+                        }));
 
       (gl0bal ? sockets : [socket]).forEach((socket) =>
       {
@@ -96,7 +97,7 @@ module.exports = (options) =>
         try
         {
           const
-          msg = require('app/service/websocket/decode')(buffer),
+          msg = require('@superhero/websocket/service/decode')(buffer),
           dto = JSON.parse(msg);
 
           debug(`recived message: ${msg}`);
@@ -110,8 +111,8 @@ module.exports = (options) =>
 
       // accept key
       const
-      request = require('app/service/parse-request')(buffer),
-      keygen  = require('app/service/websocket/accept-key'),
+      request = require('@superhero/websocket/service/parse-request')(buffer),
+      keygen  = require('@superhero/websocket/service/accept-key'),
       key     = keygen(request.headers['Sec-WebSocket-Key']);
 
       // handshake

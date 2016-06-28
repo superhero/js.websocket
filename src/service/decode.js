@@ -6,8 +6,7 @@ module.exports = (data) =>
   length    = data[1] & 127,
   firstMask = length == 126
             ? 4
-            :
-            ( length == 127
+            : ( length == 127
               ? 10
               : 2 ),
   masks = data.slice(firstMask,firstMask + 4);

@@ -1,11 +1,29 @@
 # Socket v0.1.0
 
-## Websocket
+### Websocket
+
+Licence: [Do What The Fuck You Want To Public License (WTFPL)](http://www.wtfpl.net/about/).
+
+---
 
 A server/client bundle setup to solve some personal issues I have with other solutions out there.
-The current version is very young. The project is setup for me to be able to work on the project and reference it.
 
-### Example
+## Install
+
+`npm install @superhero/websocket`
+
+...or just set the dependency in your `package.json` file:
+
+```json
+{
+  "dependencies":
+  {
+    "@superhero/websocket": "*"
+  }
+}
+```
+
+## Example
 
 #### index.html
 
@@ -14,7 +32,7 @@ The current version is very young. The project is setup for me to be able to wor
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Websocket example</title>
+    <title>Websocket by a Superhero</title>
   </head>
 
   <body>
@@ -28,21 +46,34 @@ The current version is very young. The project is setup for me to be able to wor
 ```javascript
 define(
 [
-  'socket.client.js'
+  // this "cient" -module is included in this repo. see the `client.js` file
+  'client'
 ],
 function(client)
 {
-  client(
+  var socket = client(
   {
     host  : 'localhost',
     debug : true
   })
-  .connected(function(socket)
+  .on('cool', function(dto)
   {
-    socket.on('foo', function(dto)
-    {
-      dto.msg == 'Hello' && socket.emit('bar', {msg:'World'});
-    });
+    // dto == {'this':'is','the':'response'}
+    socket.emit('¯\_(ツ)_/¯', {'also':'works'});
+  })
+  .on('SupM8', function(dto)
+  {
+    // dto == undefined
+  })
+  .connected(function(socket2)
+  {
+    // `socket` === `socket2`
+    // socket2 is however returned through a promise that the socket is
+    // connected. attaching listeners does not need this promise, emitting
+    // messages however needs a connection to send to.
+
+    // example
+    socket2.emit('HelloWorld', {'I':'am','now':'connected'})
   });
 });
 ```
@@ -50,7 +81,7 @@ function(client)
 #### server.js
 
 ```javascript
-const bus = require('socket')(
+const bus = require('@superhero/websocket')(
 {
   port  : 80,
   debug : true
@@ -58,11 +89,18 @@ const bus = require('socket')(
 
 bus.on('connected', (socket) =>
 {
-  socket.emit('foo', {msg:'Hello'});
+  // The connected event is triggered once the client is connected
+  socket.emit('SupM8');
 });
 
-bus.on('bar', (socket, dto) =>
+bus.on('HelloWorld', (socket, dto) =>
 {
-  // dto.msg == 'World'
+  // dto == {'I':'am','now':'connected'}
+  socket.emit('cool', {'this':'is','the':'response'});
+});
+
+bus.on('¯\_(ツ)_/¯', (socket, dto) =>
+{
+  // dto == {'also':'works'}
 });
 ```

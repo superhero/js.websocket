@@ -1,3 +1,6 @@
+/*
+ * This is the browser code
+ */
 define(function()
 {
   function Socket(options, onConnected)

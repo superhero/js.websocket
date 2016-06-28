@@ -1,14 +1,16 @@
 'use strict';
 
-module.exports = (buffer) =>
+module.exports = (s) =>
 {
-  buffer = buffer.toString();
+  s = s.toString
+    ? s.toString()
+    : s;
 
   // seperating the different parts of the request
   const
-  separator = buffer.indexOf('\r\n\r\n'),
-  header    = buffer.substring(0, separator).split('\r\n'),
-  body      = buffer.substring(separator + 4);
+  separator = s.indexOf('\r\n\r\n'),
+  header    = s.substring(0, separator).split('\r\n'),
+  body      = s.substring(separator + 4);
 
   // removing first row of the header
   header.shift();
@@ -24,4 +26,3 @@ module.exports = (buffer) =>
   // returning the parsed request
   return {headers:headers, body:body};
 };
-

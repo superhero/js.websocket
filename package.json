@@ -1,0 +1,14 @@
+{
+  "name"        : "@superhero/websocket",
+  "version"     : "0.1.0",
+  "description" : "A websocket implementation",
+  "repository"  : "git@github.com:joppli/websocket.git",
+  "main"        : "src/gateway/socket.js",
+  "license"     : "WTFPL",
+  "author"      :
+  {
+    "name"  : "Erik Landvall",
+    "email" : "erik@landvall.se",
+    "url"   : "http://erik.landvall.se"
+  }
+}
