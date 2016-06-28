@@ -1,4 +1,4 @@
-# Socket v0.1.0
+# Socket
 
 ### Websocket
 
@@ -46,7 +46,7 @@ A server/client bundle setup to solve some personal issues I have with other sol
 ```javascript
 define(
 [
-  // this "cient" -module is included in this repo. see the `client.js` file
+  // this "cient" -module is included in this repo. see `client.js` file
   'client'
 ],
 function(client)
@@ -59,7 +59,7 @@ function(client)
   .on('cool', function(dto)
   {
     // dto == {'this':'is','the':'response'}
-    socket.emit('¯\_(ツ)_/¯', {'also':'works'});
+    socket.emit('¯|_(ツ)_/¯', {'also':'works'});
   })
   .on('SupM8', function(dto)
   {
@@ -99,7 +99,7 @@ bus.on('HelloWorld', (socket, dto) =>
   socket.emit('cool', {'this':'is','the':'response'});
 });
 
-bus.on('¯\_(ツ)_/¯', (socket, dto) =>
+bus.on('¯|_(ツ)_/¯', (socket, dto) =>
 {
   // dto == {'also':'works'}
 });
