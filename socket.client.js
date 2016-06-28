@@ -34,7 +34,7 @@ define(function()
       onConnected && onConnected();
       var observer;
       while(observer = initQueue.shift())
-        observer.call(self);
+        observer(self);
     };
 
     socket.onclose = function(event)
@@ -61,7 +61,7 @@ define(function()
     this.connected = function(observer)
     {
       connected
-      ? observer.call(self)
+      ? observer(self)
       : initQueue.push(observer);
     };
 
