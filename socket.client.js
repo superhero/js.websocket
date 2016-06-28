@@ -63,6 +63,7 @@ define(function()
       connected
       ? observer(self)
       : initQueue.push(observer);
+      return this;
     };
 
     this.emit = function(event, data)
