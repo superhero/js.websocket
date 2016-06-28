@@ -37,7 +37,7 @@ function(client)
     host  : 'localhost',
     debug : true
   })
-  .then(function(socket)
+  .connected(function(socket)
   {
     socket.on('foo', function(dto)
     {
