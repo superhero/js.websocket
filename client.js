@@ -12,7 +12,8 @@ define(function()
     {
       protocol: options.protocol || 'ws',
       host    : options.host     || '127.0.0.1',
-      debug   : options.debug    || false
+      debug   : options.debug    || false,
+      onClose : options.onClose  || false
     },
     debug = function(context, data)
     {
@@ -109,6 +110,7 @@ define(function()
         debug('socket closed', event);
         connected = false;
         clearInterval(pid);
+        config.onClose && config.onClose();
       };
 
       socket.onmessage = function(event)
