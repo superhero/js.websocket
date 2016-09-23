@@ -59,7 +59,7 @@ function(client)
     // dto == {'this':'is','the':'response'}
     socket.emit('¯|_(ツ)_/¯', {'also':'works'});
   })
-  .on('SupM8', function(dto)
+  .on('sup m8', function(dto)
   {
     // dto == undefined
   })
@@ -88,7 +88,7 @@ const bus = require('@superhero/websocket')(
 bus.on('connected', (socket) =>
 {
   // The connected event is triggered once the client is connected
-  socket.emit('SupM8');
+  socket.emit('sup m8');
 });
 
 bus.on('HelloWorld', (socket, dto) =>
@@ -100,5 +100,44 @@ bus.on('HelloWorld', (socket, dto) =>
 bus.on('¯|_(ツ)_/¯', (socket, dto) =>
 {
   // dto == {'also':'works'}
+
+  // headers is an object of the request headers sent when connection was
+  // established
+  console.log(socket.headers);
+
+  // client ip
+  console.log(socket.remoteAddress);
+
+  // ip family (IPv4 or IPv6)
+  console.log(socket.remoteFamily);
+
+  // numeric representation of the remote port..
+  console.log(socket.remotePort);
 });
+```
+
+## Options
+
+All options are optional.
+
+```javascript
+{
+  // the host that the connection will listen to, none means all
+  host    : undefined,
+
+  // the port that the connection will listen to
+  port    : 80,
+
+  // debug mode
+  debug   : false,
+
+  // callback for error messages
+  onError : false,
+
+  // callback when connection has closed
+  onClose : false,
+
+  // allows shared connection handling
+  cluster : false
+}
 ```
