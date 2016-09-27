@@ -1,8 +1,8 @@
 {
   "name"        :  "@superhero/websocket",
-  "version"     :  "0.6.1",
-  "description" :  "A websocket implementation",
-  "repository"  :  "git@github.com:joppli/websocket.git",
+  "version"     :  "0.6.3",
+  "description" :  "Websocket implementation",
+  "repository"  :  "git@github.com:superhero/js.websocket.git",
   "main"        :  "lib/socket.js",
   "license"     :  "WTFPL",
   "keywords"    : ["websocket","ws","wss"],
