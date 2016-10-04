@@ -4,6 +4,8 @@ Licence: [Do What The Fuck You Want To Public License (WTFPL)](http://www.wtfpl.
 
 ---
 
+[![npm version](https://badge.fury.io/js/%40superhero%2Fwebsocket.svg)](https://badge.fury.io/js/%40superhero%2Fwebsocket)
+
 A server/client bundle setup to solve some personal issues I have with other solutions out there.
 
 ## Install
