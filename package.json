@@ -1,6 +1,6 @@
 {
   "name"        :  "@superhero/websocket",
-  "version"     :  "0.6.4",
+  "version"     :  "0.6.6",
   "description" :  "Websocket implementation",
   "repository"  :  "git@github.com:superhero/js.websocket.git",
   "main"        :  "lib/socket.js",
@@ -11,5 +11,9 @@
     "name"  : "Erik Landvall",
     "email" : "erik@landvall.se",
     "url"   : "http://erik.landvall.se"
+  },
+  "dependencies":
+  {
+    "@superhero/debug": "0.0.1"
   }
 }
