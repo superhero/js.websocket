@@ -1,6 +1,6 @@
 {
   "name"        :  "@superhero/websocket",
-  "version"     :  "0.6.9",
+  "version"     :  "0.8.0",
   "description" :  "Websocket implementation",
   "repository"  :  "git@github.com:superhero/js.websocket.git",
   "main"        :  "lib/socket.js",
@@ -14,6 +14,7 @@
   },
   "dependencies":
   {
-    "@superhero/debug": "0.1.0"
+    "@superhero/debug"  : "0.1.0",
+    "encoding"          : "0.1.12"
   }
 }
