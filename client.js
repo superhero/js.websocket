@@ -8,6 +8,7 @@ define(function()
     observers = {},
     initQueue = [],
     connected = false,
+    cache     = '',
     config    =
     {
       protocol: options.protocol || 'ws',
@@ -115,11 +116,20 @@ define(function()
 
       socket.onmessage = function(event)
       {
-        var dto = JSON.parse(atob(event.data));
-        debug('socket recived message', dto);
-        face.trigger(dto.event, dto.data);
+        try
+        {
+          cache  += event.data;
+          var dto = JSON.parse(atob(cache));
+          cache   = '';
+          debug('socket recived message', dto);
+          setTimeout(function()
+          {
+            face.trigger(dto.event, dto.data);
+          }, 0);
+        }
+        catch(e) {}
       };
-    });
+    }, 0);
 
     return face;
   };
