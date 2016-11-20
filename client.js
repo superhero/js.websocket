@@ -115,7 +115,7 @@ define(function()
 
       socket.onmessage = function(event)
       {
-        var dto = JSON.parse(atob(event.data));
+        var dto = JSON.parse(event.data);
         debug('socket recived message', dto);
         face.trigger(dto.event, dto.data);
       };
