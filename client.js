@@ -10,10 +10,11 @@ define(function()
     connected = false,
     config    =
     {
-      protocol: options.protocol || 'ws',
-      host    : options.host     || '127.0.0.1',
-      debug   : options.debug    || false,
-      onClose : options.onClose  || false
+      protocol  : 'protocol'  in options ? options.protocol  : 'ws',
+      host      : 'host'      in options ? options.host      : '127.0.0.1',
+      debug     : 'debug'     in options ? options.debug     : false,
+      onClose   : 'onClose'   in options ? options.onClose   : false,
+      reconnect : 'reconnect' in options ? options.reconnect : true
     },
     debug = function(context, data)
     {
@@ -87,7 +88,7 @@ define(function()
     };
 
     // Jump the event queue
-    setTimeout(function()
+    setTimeout(function connect()
     {
       socket = new WebSocket(config.protocol + '://' + config.host);
 
@@ -110,12 +111,13 @@ define(function()
         debug('socket closed', event);
         connected = false;
         clearInterval(pid);
-        config.onClose && config.onClose();
+        config.onClose    && config.onClose();
+        config.reconnect  && setTimeout(connect, 100);
       };
 
       socket.onmessage = function(event)
       {
-        var dto = JSON.parse(atob(event.data));
+        var dto = JSON.parse(event.data);
         debug('socket recived message', dto);
         face.trigger(dto.event, dto.data);
       };
