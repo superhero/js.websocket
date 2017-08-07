@@ -45,8 +45,11 @@ define(function()
         };
         setTimeout(function()
         {
-          socket.send(JSON.stringify(dto));
-          debug('emitted', dto);
+          face.connected(function()
+          {
+            socket.send(JSON.stringify(dto));
+            debug('emitted', dto);
+          });
         });
         return this;
       },
