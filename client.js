@@ -1,6 +1,6 @@
 define(function()
 {
-  return function(options, onConnected)
+  return function(options)
   {
     var
     pid,
@@ -10,11 +10,14 @@ define(function()
     connected = false,
     config    =
     {
-      protocol  : 'protocol'  in options ? options.protocol  : 'ws',
-      host      : 'host'      in options ? options.host      : '127.0.0.1',
-      debug     : 'debug'     in options ? options.debug     : false,
-      onClose   : 'onClose'   in options ? options.onClose   : false,
-      reconnect : 'reconnect' in options ? options.reconnect : true
+      protocol    : 'protocol'    in options ? options.protocol    : 'ws',
+      host        : 'host'        in options ? options.host        : '127.0.0.1',
+      debug       : 'debug'       in options ? options.debug       : false,
+      reconnect   : 'reconnect'   in options ? options.reconnect   : true,
+      onClose     : 'onClose'     in options ? options.onClose     : false,
+      onConnect   : 'onConnect'   in options ? options.onConnect   : false,
+      onReconnect : 'onReconnect' in options ? options.onReconnect : false
+
     },
     debug = function(context, data)
     {
@@ -74,7 +77,7 @@ define(function()
       },
 
       removeListener: function(event, listener)
-      {
+      {from_reconnect
         if(!observers[event])
           return this;
 
@@ -91,7 +94,7 @@ define(function()
     };
 
     // Jump the event queue
-    setTimeout(function connect()
+    setTimeout(function connect(is_reconnect)
     {
       socket = new WebSocket(config.protocol + '://' + config.host);
 
@@ -103,7 +106,11 @@ define(function()
 
         // this set is used for the init queue (connection promise)
         connected = true;
-        onConnected && onConnected();
+
+        is_reconnect
+        ? config.onReconnect && config.onReconnect()
+        : config.onConnect   && config.onConnect();
+
         var observer;
         while(observer = initQueue.shift())
           observer(face);
@@ -115,13 +122,13 @@ define(function()
         connected = false;
         clearInterval(pid);
         config.onClose    && config.onClose();
-        config.reconnect  && setTimeout(connect, 100);
+        config.reconnect  && setTimeout(connect, 100, true);
       };
 
       socket.onmessage = function(event)
       {
         var dto = JSON.parse(event.data);
-        debug('socket recived message', dto);
+        dto.event != 'pong' && debug('socket recived message', dto);
         face.trigger(dto.event, dto.data);
       };
     });
