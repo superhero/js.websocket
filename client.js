@@ -128,7 +128,7 @@ define(function()
       socket.onmessage = function(event)
       {
         var dto = JSON.parse(event.data);
-        dto.event != 'pong' && debug('socket recived message', dto);
+        debug('socket recived message', dto);
         face.trigger(dto.event, dto.data);
       };
     });
