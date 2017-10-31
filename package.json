@@ -1,6 +1,6 @@
 {
   "name"        :  "@superhero/websocket",
-  "version"     :  "0.13.13",
+  "version"     :  "1.0.0",
   "description" :  "Websocket implementation",
   "repository"  :  "git@github.com:superhero/js.websocket.git",
   "main"        :  "lib/socket.js",
