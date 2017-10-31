@@ -14,7 +14,7 @@
   },
   "dependencies":
   {
-    "@superhero/debug"  : "*",
+    "@superhero/debug"  : "0.3.6",
     "encoding"          : "0.1.12"
   }
 }
