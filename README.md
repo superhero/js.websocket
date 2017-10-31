@@ -125,7 +125,7 @@ All options are optional.
 ```javascript
 {
   // debug mode
-  debug   : false,
+  debug   : true,
 
   // callback for error messages
   onError : false,
