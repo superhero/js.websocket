@@ -81,25 +81,25 @@ function(client)
 #### server.js
 
 ```javascript
-const bus = require('@superhero/websocket')(
-{
-  port  : 80,
-  debug : true
-});
+const Websocket = require('@superhero/websocket');
+const websocket = new Websocket();
 
-bus.on('connected', (socket) =>
+// listen on port 80
+websocket.server.listen({port:80});
+
+websocket.events.on('connected', (socket) =>
 {
   // The connected event is triggered once the client is connected
   socket.emit('sup m8');
 });
 
-bus.on('HelloWorld', (socket, dto) =>
+websocket.events.on('HelloWorld', (socket, dto) =>
 {
   // dto == {'I':'am','now':'connected'}
   socket.emit('cool', {'this':'is','the':'response'});
 });
 
-bus.on('¯|_(ツ)_/¯', (socket, dto) =>
+websocket.events.on('¯|_(ツ)_/¯', (socket, dto) =>
 {
   // dto == {'also':'works'}
 
@@ -124,12 +124,6 @@ All options are optional.
 
 ```javascript
 {
-  // the host that the connection will listen to, none means all
-  host    : undefined,
-
-  // the port that the connection will listen to
-  port    : 80,
-
   // debug mode
   debug   : false,
 
@@ -137,9 +131,6 @@ All options are optional.
   onError : false,
 
   // callback when connection has closed
-  onClose : false,
-
-  // allows shared connection handling
-  cluster : false
+  onClose : false
 }
 ```
