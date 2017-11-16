@@ -29,39 +29,40 @@ A server/client bundle setup to solve some personal issues I have with other sol
 
 ```javascript
 const Websocket = require('@superhero/websocket');
-const websocket = new Websocket();
+const options   = {debug : true};
+const websocket = new Websocket(options);
 
 // listen on port 80
 websocket.server.listen({port:80});
 
-websocket.events.on('connected', (socket) =>
+websocket.events.on('connected', (ctx) =>
 {
   // The connected event is triggered once the client is connected
-  socket.emit('sup m8');
+  ctx.emit('sup m8');
 });
 
-websocket.events.on('HelloWorld', (socket, dto) =>
+websocket.events.on('HelloWorld', (ctx, dto) =>
 {
   // dto == {'I':'am','now':'connected'}
-  socket.emit('cool', {'this':'is','the':'response'});
+  ctx.emit('cool', {'this':'is','the':'response'});
 });
 
-websocket.events.on('¯|_(ツ)_/¯', (socket, dto) =>
+websocket.events.on('¯|_(ツ)_/¯', (ctx, dto) =>
 {
   // dto == {'also':'works'}
 
   // headers is an object of the request headers sent when connection was
   // established
-  console.log(socket.headers);
+  console.log(ctx.headers);
 
   // client ip
-  console.log(socket.remoteAddress);
+  console.log(ctx.socket.remoteAddress);
 
   // ip family (IPv4 or IPv6)
-  console.log(socket.remoteFamily);
+  console.log(ctx.socket.remoteFamily);
 
   // numeric representation of the remote port..
-  console.log(socket.remotePort);
+  console.log(ctx.socket.remotePort);
 });
 ```
 
