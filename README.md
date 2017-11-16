@@ -25,59 +25,6 @@ A server/client bundle setup to solve some personal issues I have with other sol
 
 ## Example
 
-#### index.html
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Websocket by a Superhero</title>
-  </head>
-
-  <body>
-    <script data-main="/main" src="//requirejs.org/docs/release/2.2.0/minified/require.js"></script>
-  </body>
-</html>
-```
-
-#### main.js
-
-```javascript
-define(
-[
-  // this "cient" -module is included in this repo. see `client.js` file
-  'client'
-],
-function(client)
-{
-  var socket = client(
-  {
-    host  : 'localhost',
-    debug : true
-  })
-  .on('cool', function(dto)
-  {
-    // dto == {'this':'is','the':'response'}
-    socket.emit('¯|_(ツ)_/¯', {'also':'works'});
-  })
-  .on('sup m8', function(dto)
-  {
-    // dto == undefined
-  })
-  .connected(function(socket2)
-  {
-    // `socket` === `socket2`
-    // socket2 is however returned through a promise that the socket is
-    // connected. attaching listeners does not need this promise, emitting
-    // messages however needs a connection to send to.
-
-    // example
-    socket2.emit('HelloWorld', {'I':'am','now':'connected'})
-  });
-});
-```
-
 #### server.js
 
 ```javascript
@@ -133,4 +80,57 @@ All options are optional.
   // callback when connection has closed
   onClose : false
 }
+```
+
+#### index.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Websocket by a Superhero</title>
+  </head>
+
+  <body>
+    <script data-main="/main" src="//requirejs.org/docs/release/2.2.0/minified/require.js"></script>
+  </body>
+</html>
+```
+
+#### main.js
+
+```javascript
+define(
+[
+  // this "cient" -module is included in this repo. see `client.js` file
+  'client'
+],
+function(client)
+{
+  var socket = client(
+  {
+    host  : 'localhost',
+    debug : true
+  })
+  .on('cool', function(dto)
+  {
+    // dto == {'this':'is','the':'response'}
+    socket.emit('¯|_(ツ)_/¯', {'also':'works'});
+  })
+  .on('sup m8', function(dto)
+  {
+    // dto == undefined
+  })
+  .connected(function(socket2)
+  {
+    // `socket` === `socket2`
+    // socket2 is however returned through a promise that the socket is
+    // connected. attaching listeners does not need this promise, emitting
+    // messages however needs a connection to send to.
+
+    // example
+    socket2.emit('HelloWorld', {'I':'am','now':'connected'})
+  });
+});
 ```
