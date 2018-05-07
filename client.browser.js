@@ -78,7 +78,7 @@ define(function()
       },
 
       removeListener: function(event, listener)
-      {from_reconnect
+      {
         if(!observers[event])
           return this;
 
