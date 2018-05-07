@@ -1,9 +1,9 @@
 {
   "name"        :  "@superhero/websocket",
-  "version"     :  "1.0.19",
+  "version"     :  "1.0.20",
   "description" :  "Websocket implementation",
   "repository"  :  "git@github.com:superhero/js.websocket.git",
-  "main"        :  "lib/socket.js",
+  "main"        :  "index.js",
   "license"     :  "MIT",
   "keywords"    : ["websocket","ws","wss"],
   "author"      :

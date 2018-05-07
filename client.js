@@ -1,3 +1,4 @@
+// browser client version
 define(function()
 {
   return function(options)
