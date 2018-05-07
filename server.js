@@ -12,7 +12,6 @@ module.exports = class
     this.config = Object.assign(
     {
       debug   : true,
-      onError : false,
       onClose : false
     }, options);
 

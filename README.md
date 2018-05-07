@@ -75,9 +75,6 @@ All options are optional.
   // debug mode
   debug   : true,
 
-  // callback for error messages
-  onError : false,
-
   // callback when connection has closed
   onClose : false
 }
