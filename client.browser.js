@@ -102,7 +102,6 @@ define(function()
       socket.onopen = function(event)
       {
         debug('socket open', event);
-        face.emit('connected');
         pid = setInterval(function(){face.emit('ping')}, 25000);
 
         // this set is used for the init queue (connection promise)
