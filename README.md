@@ -29,27 +29,21 @@ A server/client bundle setup to solve some personal issues I have with other sol
 
 ```javascript
 const Websocket = require('@superhero/websocket');
-const options   = {debug : true};
+const options   = { debug:true };
 const websocket = new Websocket(options);
 
 // listen on port 80
-websocket.server.listen({port:80});
-
-websocket.events.on('connected', (ctx) =>
-{
-  // The connected event is triggered once the client is connected
-  ctx.emit('sup m8');
-});
+websocket.server.listen({ port:80 });
 
 websocket.events.on('HelloWorld', (ctx, dto) =>
 {
-  // dto == {'I':'am','now':'connected'}
-  ctx.emit('cool', {'this':'is','the':'response'});
+  // dto == { 'I':'am','now':'connected' }
+  ctx.emit('cool', { 'this':'is','the':'response' });
 });
 
 websocket.events.on('¯|_(ツ)_/¯', (ctx, dto) =>
 {
-  // dto == {'also':'works'}
+  // dto == { 'also':'works' }
 
   // headers is an object of the request headers sent when connection was
   // established
@@ -113,8 +107,8 @@ function(client)
   })
   .on('cool', function(dto)
   {
-    // dto == {'this':'is','the':'response'}
-    socket.emit('¯|_(ツ)_/¯', {'also':'works'});
+    // dto == { 'this':'is','the':'response' }
+    socket.emit('¯|_(ツ)_/¯', { 'also':'works' });
   })
   .on('sup m8', function(dto)
   {
@@ -128,7 +122,7 @@ function(client)
     // messages however needs a connection to send to.
 
     // example
-    socket2.emit('HelloWorld', {'I':'am','now':'connected'})
+    socket2.emit('HelloWorld', { 'I':'am','now':'connected' })
   });
 });
 ```
