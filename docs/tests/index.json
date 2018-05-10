@@ -5,8 +5,8 @@
     "passes": 13,
     "pending": 0,
     "failures": 0,
-    "start": "2018-05-10T12:45:40.508Z",
-    "end": "2018-05-10T12:45:40.582Z",
+    "start": "2018-05-10T12:50:41.503Z",
+    "end": "2018-05-10T12:50:41.577Z",
     "duration": 74,
     "testsRegistered": 13,
     "passPercent": 100,
@@ -19,7 +19,7 @@
     "pendingPercentClass": "danger"
   },
   "suites": {
-    "uuid": "073cb228-cfc0-4007-afc2-b6a98cc83bf2",
+    "uuid": "0da25e5a-e24d-4c09-8deb-68bc73d56596",
     "title": "",
     "fullFile": "",
     "file": "",
@@ -28,7 +28,7 @@
     "tests": [],
     "suites": [
       {
-        "uuid": "b93c4569-2dc7-4756-a2d2-49ddda540d29",
+        "uuid": "2823deb9-7a55-4f59-9a85-52ad76d97ada",
         "title": "codec tests",
         "fullFile": "/home/erik/Projects/@superhero/js.websocket/test.js",
         "file": "/test.js",
@@ -48,7 +48,7 @@
             "code": "expect(Codec.GUID).to.be.equal('258EAFA5-E914-47DA-95CA-C5AB0DC85B11')",
             "err": {},
             "isRoot": false,
-            "uuid": "4397eebb-1875-4a38-a56f-17e28a778498",
+            "uuid": "44ea3aa1-4f16-480f-b9e9-9dec5f7a6ba9",
             "isHook": false,
             "skipped": false
           },
@@ -65,7 +65,7 @@
             "code": "const\noriginal = 'foobar',\nencoded  = Codec.encode(original)\nfor(const decoded of Codec.decode(encoded))\n{\n  expect(decoded.msg).to.be.equal(original)\n  done()\n}",
             "err": {},
             "isRoot": false,
-            "uuid": "e1fb693f-955f-48fc-8575-ad2a38e7b823",
+            "uuid": "db017562-898c-4ff3-8055-c8b93d0a07b6",
             "isHook": false,
             "skipped": false
           },
@@ -82,7 +82,7 @@
             "code": "const\noriginal = 'foobar',\nmasked   = true,\nencoded  = Codec.encode(original, masked)\nfor(const decoded of Codec.decode(encoded))\n{\n  expect(decoded.msg).to.be.equal(original)\n  done()\n}",
             "err": {},
             "isRoot": false,
-            "uuid": "e4070124-bd54-4192-a137-6415db186185",
+            "uuid": "06907cf3-cd14-4701-9002-7299322c36f1",
             "isHook": false,
             "skipped": false
           },
@@ -99,17 +99,17 @@
             "code": "const\noriginal = 'foobar',\nencoded  = Codec.encode(original)\nfor(const decoded of Codec.decode(encoded))\n{\n  expect(decoded.buffer.length).to.be.equal(0)\n  done()\n}",
             "err": {},
             "isRoot": false,
-            "uuid": "fc6d3052-4cf8-47c7-81bc-3aedb2a57aab",
+            "uuid": "c815146a-47fc-49d0-a615-c7cb5b27bd4f",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
         "passes": [
-          "4397eebb-1875-4a38-a56f-17e28a778498",
-          "e1fb693f-955f-48fc-8575-ad2a38e7b823",
-          "e4070124-bd54-4192-a137-6415db186185",
-          "fc6d3052-4cf8-47c7-81bc-3aedb2a57aab"
+          "44ea3aa1-4f16-480f-b9e9-9dec5f7a6ba9",
+          "db017562-898c-4ff3-8055-c8b93d0a07b6",
+          "06907cf3-cd14-4701-9002-7299322c36f1",
+          "c815146a-47fc-49d0-a615-c7cb5b27bd4f"
         ],
         "failures": [],
         "pending": [],
@@ -120,7 +120,7 @@
         "_timeout": 2000
       },
       {
-        "uuid": "5067722f-744b-4658-8f29-b3a58a48e29f",
+        "uuid": "8cbb71cf-b661-4cec-a7ee-6af787c23103",
         "title": "server setup tests",
         "fullFile": "/home/erik/Projects/@superhero/js.websocket/test.js",
         "file": "/test.js",
@@ -131,7 +131,7 @@
             "title": "possible for the server to listen to a port",
             "fullTitle": "server setup tests possible for the server to listen to a port",
             "timedOut": false,
-            "duration": 4,
+            "duration": 3,
             "state": "passed",
             "speed": "fast",
             "pass": true,
@@ -140,7 +140,7 @@
             "code": "const WebsocketServer = require('./server')\nserver = new WebsocketServer({ debug:false })\nserver.server.on('listening', done)\nserver.server.listen({ port:9001 })",
             "err": {},
             "isRoot": false,
-            "uuid": "ffaa1fb8-e905-4479-af6f-65fcc823080d",
+            "uuid": "4f22fd4e-d7c1-42c8-a924-c69742877fa7",
             "isHook": false,
             "skipped": false
           },
@@ -157,26 +157,26 @@
             "code": "server.server.on('close', done)\nserver.server.close()",
             "err": {},
             "isRoot": false,
-            "uuid": "2dae6a0d-7833-44b3-9ea3-4485b0479c67",
+            "uuid": "acce1549-3cba-4aec-a232-019ab4f05f21",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
         "passes": [
-          "ffaa1fb8-e905-4479-af6f-65fcc823080d",
-          "2dae6a0d-7833-44b3-9ea3-4485b0479c67"
+          "4f22fd4e-d7c1-42c8-a924-c69742877fa7",
+          "acce1549-3cba-4aec-a232-019ab4f05f21"
         ],
         "failures": [],
         "pending": [],
         "skipped": [],
-        "duration": 4,
+        "duration": 3,
         "root": false,
         "rootEmpty": false,
         "_timeout": 2000
       },
       {
-        "uuid": "367c6fd1-9b47-4102-8a10-d805fb5ec27d",
+        "uuid": "cbe876c1-a173-4f0b-940e-580c75614abf",
         "title": "client setup tests",
         "fullFile": "/home/erik/Projects/@superhero/js.websocket/test.js",
         "file": "/test.js",
@@ -193,7 +193,7 @@
             "code": "server.server.close()",
             "err": {},
             "isRoot": false,
-            "uuid": "8ca0d741-fbfe-48dd-a342-77fe39056871",
+            "uuid": "6391ba6c-0735-44d0-a314-d51fb2aabcf1",
             "isHook": true,
             "skipped": false
           }
@@ -212,7 +212,7 @@
             "code": "const\nWebsocketClient = require('./client'),\nWebsocketServer = require('./server'),\nport = 9001\n// let\nclient = new WebsocketClient({ debug:false })\nserver = new WebsocketServer({ debug:false })\nserver.server.on('listening', async () =>\n{\n  await client.connect(port)\n  done()\n})\nserver.server.listen({ port })",
             "err": {},
             "isRoot": false,
-            "uuid": "3761bcac-ada1-4b02-8d77-cebcbe6429a4",
+            "uuid": "d5c4a306-4b66-481b-9a40-447b64427088",
             "isHook": false,
             "skipped": false
           },
@@ -229,15 +229,15 @@
             "code": "client.socket.on('close', done)\nclient.socket.end()",
             "err": {},
             "isRoot": false,
-            "uuid": "480247d9-902a-4961-85c1-9afa19a10a59",
+            "uuid": "278ef251-9b6a-440d-9d54-94adea7613dc",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
         "passes": [
-          "3761bcac-ada1-4b02-8d77-cebcbe6429a4",
-          "480247d9-902a-4961-85c1-9afa19a10a59"
+          "d5c4a306-4b66-481b-9a40-447b64427088",
+          "278ef251-9b6a-440d-9d54-94adea7613dc"
         ],
         "failures": [],
         "pending": [],
@@ -248,7 +248,7 @@
         "_timeout": 2000
       },
       {
-        "uuid": "1fdc9411-fcaa-4088-b95f-879ed3823c18",
+        "uuid": "0c15fdb5-5d9b-4c33-a5ba-c58bc51c67e1",
         "title": "integration tests",
         "fullFile": "/home/erik/Projects/@superhero/js.websocket/test.js",
         "file": "/test.js",
@@ -264,7 +264,7 @@
             "code": "const\nWebsocketClient = require('./client'),\nWebsocketServer = require('./server'),\nport = 9001\n// let\nserver = new WebsocketServer({ debug:false })\nclient = new WebsocketClient({ debug:false })\nserver.server.listen({ port })\nserver.server.on('listening', async () =>\n{\n  await client.connect(port)\n  done()\n})",
             "err": {},
             "isRoot": false,
-            "uuid": "67a8a40c-9633-4198-a8b5-15969143efb8",
+            "uuid": "bd25aee8-6d89-46fa-addf-a9807ee1032a",
             "isHook": true,
             "skipped": false
           }
@@ -281,7 +281,7 @@
             "code": "client.socket.end()\nserver.server.close()",
             "err": {},
             "isRoot": false,
-            "uuid": "58981672-a08e-4f19-9ffa-fcbf2e48eb91",
+            "uuid": "0a644a02-b66f-4d93-9baa-d4505754eb6d",
             "isHook": true,
             "skipped": false
           }
@@ -300,7 +300,7 @@
             "code": "expect(client.emit.bind(client, []  )).to.throw(TypeError)\nexpect(client.emit.bind(client, {}  )).to.throw(TypeError)\nexpect(client.emit.bind(client, 1234)).to.throw(TypeError)\nexpect(client.emit.bind(client, null)).to.throw(TypeError)",
             "err": {},
             "isRoot": false,
-            "uuid": "200f5673-c706-4a2b-a62b-4f12892a2fca",
+            "uuid": "3ee1828c-c0a8-4f63-8a37-9d24e7a56d32",
             "isHook": false,
             "skipped": false
           },
@@ -317,7 +317,7 @@
             "code": "const\nevt = 'foo',\ndto = 'bar'\nserver.events.on(evt, (ctx, data) =>\n{\n  expect(data).to.be.equal(dto)\n  done()\n})\nclient.emit(evt, dto)",
             "err": {},
             "isRoot": false,
-            "uuid": "1c7fafe5-a594-42f2-be52-3525e871a15b",
+            "uuid": "ecfb2c28-97d2-4739-ba30-e9e282d50af1",
             "isHook": false,
             "skipped": false
           },
@@ -334,7 +334,7 @@
             "code": "const\nevt1 = 'foo',\nevt2 = 'bar',\ndto1 = 'baz',\ndto2 = 'qux'\nserver.events.on(evt1, (ctx, dto) =>\n{\n  expect(dto).to.be.equal(dto1)\n  ctx.emit(evt2, dto2)\n})\nclient.events.on(evt2, (dto) =>\n{\n  expect(dto).to.be.equal(dto2)\n  done()\n})\nclient.emit(evt1, dto1)",
             "err": {},
             "isRoot": false,
-            "uuid": "77bbb4a4-f5a1-4da2-bfc8-365f7ee0bf12",
+            "uuid": "42d50a3d-7168-4209-90af-681de8ec24da",
             "isHook": false,
             "skipped": false
           },
@@ -342,7 +342,7 @@
             "title": "possible to emit a message larger then 125 and less then 65535",
             "fullTitle": "integration tests possible to emit a message larger then 125 and less then 65535",
             "timedOut": false,
-            "duration": 1,
+            "duration": 0,
             "state": "passed",
             "speed": "fast",
             "pass": true,
@@ -351,7 +351,7 @@
             "code": "const\nevt1 = 'foo'.repeat(125),\nevt2 = 'bar'.repeat(125),\ndto1 = 'baz'.repeat(125),\ndto2 = 'qux'.repeat(125)\nserver.events.on(evt1, (ctx, dto) =>\n{\n  expect(dto).to.be.equal(dto1)\n  ctx.emit(evt2, dto2)\n})\nclient.events.on(evt2, (dto) =>\n{\n  expect(dto).to.be.equal(dto2)\n  done()\n})\nclient.emit(evt1, dto1)",
             "err": {},
             "isRoot": false,
-            "uuid": "82918980-f29e-4066-b4d6-7fb09a7a3b17",
+            "uuid": "f0426c44-a47d-4539-b5ca-35d43dfa240a",
             "isHook": false,
             "skipped": false
           },
@@ -359,7 +359,7 @@
             "title": "possible to emit a message larger then 65535 chars",
             "fullTitle": "integration tests possible to emit a message larger then 65535 chars",
             "timedOut": false,
-            "duration": 6,
+            "duration": 7,
             "state": "passed",
             "speed": "fast",
             "pass": true,
@@ -368,18 +368,18 @@
             "code": "const\nevt1 = 'foo'.repeat(13107),\nevt2 = 'bar'.repeat(13107),\ndto1 = 'baz'.repeat(13107),\ndto2 = 'qux'.repeat(13107)\nserver.events.on(evt1, (ctx, dto) =>\n{\n  expect(dto).to.be.equal(dto1)\n  ctx.emit(evt2, dto2)\n})\nclient.events.on(evt2, (dto) =>\n{\n  expect(dto).to.be.equal(dto2)\n  done()\n})\nclient.emit(evt1, dto1)",
             "err": {},
             "isRoot": false,
-            "uuid": "bfbc3b48-f010-4eb0-9c5a-7aedd267f8ac",
+            "uuid": "b5a0b651-d58a-4842-a34b-e1016b73c21e",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
         "passes": [
-          "200f5673-c706-4a2b-a62b-4f12892a2fca",
-          "1c7fafe5-a594-42f2-be52-3525e871a15b",
-          "77bbb4a4-f5a1-4da2-bfc8-365f7ee0bf12",
-          "82918980-f29e-4066-b4d6-7fb09a7a3b17",
-          "bfbc3b48-f010-4eb0-9c5a-7aedd267f8ac"
+          "3ee1828c-c0a8-4f63-8a37-9d24e7a56d32",
+          "ecfb2c28-97d2-4739-ba30-e9e282d50af1",
+          "42d50a3d-7168-4209-90af-681de8ec24da",
+          "f0426c44-a47d-4539-b5ca-35d43dfa240a",
+          "b5a0b651-d58a-4842-a34b-e1016b73c21e"
         ],
         "failures": [],
         "pending": [],
