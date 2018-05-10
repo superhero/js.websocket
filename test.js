@@ -110,6 +110,14 @@ describe('integration tests', () =>
     server.server.close()
   })
 
+  it('not possible to emit an event that is not a string', () =>
+  {
+    expect(client.emit.bind(client, []  )).to.throw(TypeError)
+    expect(client.emit.bind(client, {}  )).to.throw(TypeError)
+    expect(client.emit.bind(client, 1234)).to.throw(TypeError)
+    expect(client.emit.bind(client, null)).to.throw(TypeError)
+  })
+
   it('possible to emit an event from the client to the server', (done) =>
   {
     const
@@ -123,13 +131,53 @@ describe('integration tests', () =>
     client.emit(evt, dto)
   })
 
-  it('possible to emit an event from the server to the client', (done) =>
+  it('possible to emit less then 125 char message', (done) =>
   {
     const
     evt1 = 'foo',
     evt2 = 'bar',
     dto1 = 'baz',
     dto2 = 'qux'
+    server.events.on(evt1, (ctx, dto) =>
+    {
+      expect(dto).to.be.equal(dto1)
+      ctx.emit(evt2, dto2)
+    })
+    client.events.on(evt2, (dto) =>
+    {
+      expect(dto).to.be.equal(dto2)
+      done()
+    })
+    client.emit(evt1, dto1)
+  })
+
+  it('possible to emit a message larger then 125 and less then 65535', () =>
+  {
+    const
+    evt1 = 'foo'.repeat(125),
+    evt2 = 'bar'.repeat(125),
+    dto1 = 'baz'.repeat(125),
+    dto2 = 'qux'.repeat(125)
+    server.events.on(evt1, (ctx, dto) =>
+    {
+      expect(dto).to.be.equal(dto1)
+      ctx.emit(evt2, dto2)
+    })
+    client.events.on(evt2, (dto) =>
+    {
+      expect(dto).to.be.equal(dto2)
+      done()
+    })
+    client.emit(evt1, dto1)
+  })
+
+  it('possible to emit a message larger then 65535 chars', () =>
+  {
+    const
+    evt1 = 'foo'.repeat(13107),
+    evt2 = 'bar'.repeat(13107),
+    dto1 = 'baz'.repeat(13107),
+    dto2 = 'qux'.repeat(13107)
     server.events.on(evt1, (ctx, dto) =>
     {
       expect(dto).to.be.equal(dto1)
