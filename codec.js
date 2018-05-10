@@ -12,7 +12,7 @@ module.exports = Object.freeze(
     return crypto.createHash('sha1').update(key + this.GUID).digest('base64')
   },
 
-  encode : function(data)
+  encode : function(data, masked)
   {
     let header
 
@@ -38,13 +38,28 @@ module.exports = Object.freeze(
       header[1] = 127
 
       const unit = 256
+
       for(let i = 9, left = length; i > 1 && left > 0; i--)
       {
         header[i] = left % unit
         left /= unit
       }
     }
+
     header[0] = 129
+
+    if(masked)
+    {
+      header[1] += 128
+
+      const mask = crypto.randomBytes(4)
+
+      for(let i = 0; i < payload.length; ++i)
+        payload[i] = payload[i] ^ mask[i % 4]
+
+      header = Buffer.concat([header, mask])
+    }
+
     return Buffer.concat([header, payload])
   },
 
@@ -52,15 +67,15 @@ module.exports = Object.freeze(
   {
     const
     pack    = buffer[1] & 127,
+    hasMask = buffer[1] & 128,
     iniMask = pack == 126
               ? 4
               : ( pack == 127
                 ? 10
                 : 2 ),
-    endMask = buffer[0] & 8
+    endMask = hasMask
               ? iniMask + 4
               : iniMask,
-    masks   = buffer.slice(iniMask, endMask),
     length  = pack < 126
             ? pack
             : buffer.readUIntBE(2, iniMask - 2),
@@ -71,8 +86,19 @@ module.exports = Object.freeze(
       return
 
     let msg = ''
-    for (let i = 0; i < payload.length; i++)
-      msg += String.fromCharCode(payload[i] ^ masks[i % 4])
+
+    if(hasMask)
+    {
+      const mask = buffer.slice(iniMask, endMask)
+
+      for (let i = 0; i < payload.length; i++)
+        msg += String.fromCharCode(payload[i] ^ mask[i % 4])
+    }
+    else
+    {
+      for (let i = 0; i < payload.length; i++)
+        msg += String.fromCharCode(payload[i])
+    }
 
     msg    = encoding.convert(msg, 'Latin_1').toString()
     buffer = buffer.slice(end)

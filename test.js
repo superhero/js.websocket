@@ -20,6 +20,20 @@ describe('codec tests', () =>
     }
   })
 
+  it('possible to decode an encoded string with mask', (done) =>
+  {
+    const
+    original = 'foobar',
+    masked   = true,
+    encoded  = Codec.encode(original, masked)
+
+    for(const decoded of Codec.decode(encoded))
+    {
+      expect(decoded.msg).to.be.equal(original)
+      done()
+    }
+  })
+
   it('buffer is empty after processed complete message', (done) =>
   {
     const

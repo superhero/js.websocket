@@ -1,7 +1,6 @@
 ## Websocket message format
 
-- https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers
-- https://tools.ietf.org/html/rfc6455#section-5.2
+https://tools.ietf.org/html/rfc6455#section-5.2
 
 ```
  0               1               2               3
@@ -47,7 +46,7 @@ https://tools.ietf.org/html/rfc6455#page-6
   base64-encoded, of this concatenation is then returned in the server's
   handshake.
 
-### Respons header:
+### Respons header
 
 The above generated key is past down through the `Sec-WebSocket-Accept` header.
 
@@ -57,3 +56,15 @@ Upgrade: websocket
 Connection: Upgrade
 Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
 ```
+
+## Masking
+
+https://tools.ietf.org/html/rfc6455#section-5.2
+
+> All frames sent from the client to the server are masked by a
+  32-bit value that is contained within the frame.  This field is
+  present if the mask bit is set to 1 and is absent if the mask bit
+  is set to 0.  See Section 5.3 for further information on client-
+  to-server masking.
+
+https://tools.ietf.org/html/rfc6455#section-5.3
