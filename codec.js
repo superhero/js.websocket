@@ -71,8 +71,8 @@ module.exports = Object.freeze(
       return
 
     let msg = ''
-    for (let i = 0, m = 0; i < payload.length; i++, m++)
-      msg += String.fromCharCode(payload[i] ^ masks[m % 4])
+    for (let i = 0; i < payload.length; i++)
+      msg += String.fromCharCode(payload[i] ^ masks[i % 4])
 
     msg    = encoding.convert(msg, 'Latin_1').toString()
     buffer = buffer.slice(end)
