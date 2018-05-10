@@ -38,7 +38,7 @@ websocket.server.listen({ port:80 });
 websocket.events.on('HelloWorld', (ctx, dto) =>
 {
   // dto == { 'I':'am','now':'connected' }
-  ctx.emit('cool', { 'this':'is','the':'response' });
+  ctx.emit('sup m8', { 'this':'is','the':'response' });
 });
 
 websocket.events.on('¯|_(ツ)_/¯', (ctx, dto) =>
@@ -95,7 +95,7 @@ All options are optional.
 ```javascript
 define(
 [
-  // this "cient" -module is included in this repo. see `client.js` file
+  // this "cient" -module is included in this repo. see `client.browser.js` file
   'client'
 ],
 function(client)
@@ -105,14 +105,10 @@ function(client)
     host  : 'localhost',
     debug : true
   })
-  .on('cool', function(dto)
+  .on('sup m8', function(dto)
   {
     // dto == { 'this':'is','the':'response' }
     socket.emit('¯|_(ツ)_/¯', { 'also':'works' });
-  })
-  .on('sup m8', function(dto)
-  {
-    // dto == undefined
   })
   .connected(function(socket2)
   {
