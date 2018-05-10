@@ -22,6 +22,9 @@ module.exports = class
     this.sockets  = []
 
     // ping-pong to keep the connection alive
+    // this is not part of the standard, but it's required becouse of
+    // limitations in the browser api
+    // https://tools.ietf.org/html/rfc6455#page-29
     this.events.on('ping', (socket) => socket.emit('pong'))
 
     for(let event of ['close','connection','listening'])
@@ -118,7 +121,12 @@ module.exports = class
         'Connection: Upgrade',
         'Sec-WebSocket-Accept: ' + signature
       ].join('\r\n') + '\r\n\r\n',
-      () => this.log('socket:', 'handshake:', 'sent:', 'signature:', signature))
+      (error) =>
+      {
+        error
+        ? this.log('socket:', 'handshake:', 'error:', error)
+        : this.log('socket:', 'handshake:', 'sent:', 'signature:', signature)
+      })
     }
     else
     {
@@ -174,7 +182,25 @@ module.exports = class
     dto     = JSON.stringify({ event, data }),
     encoded = Codec.encode(dto)
 
-    for(let _socket of (toAll ? this.sockets : [socket]))
-      setImmediate(() => _socket.write(encoded))
+    const promises = []
+
+    for(let soc of (toAll ? this.sockets : [socket]))
+      promises.push(
+        new Promise((fulfill, reject) =>
+          soc.write(encoded, (error) =>
+          {
+            if(error)
+            {
+              this.log('error emitting:', event, data, error)
+              reject(error)
+            }
+            else
+            {
+              this.log('emitted:', event, data)
+              fulfill()
+            }
+          })))
+
+    return Promise.all(promises)
   }
 }

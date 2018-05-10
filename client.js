@@ -49,14 +49,15 @@ module.exports = class
   {
     const header = this.composeHeader(headers)
 
-    return new Promise((fulfill) =>
+    return new Promise((fulfill, reject) =>
       this.socket.connect(port, host, () =>
       {
         this.socket.write(header, (error) =>
         {
           if(error)
           {
-            throw error
+            this.log('error sending handshake', error)
+            reject(error)
           }
           else
           {
@@ -162,11 +163,19 @@ module.exports = class
     masked  = true,
     encoded = Codec.encode(dto, masked)
 
-    return new Promise((fulfill) =>
-      this.socket.write(encoded, () =>
+    return new Promise((fulfill, reject) =>
+      this.socket.write(encoded, (error) =>
       {
-        this.log('emitted:', event, data)
-        fulfill()
+        if(error)
+        {
+          this.log('error emitting:', event, data, error)
+          reject(error)
+        }
+        else
+        {
+          this.log('emitted:', event, data)
+          fulfill()
+        }
       }))
   }
 }
