@@ -159,7 +159,8 @@ module.exports = class
 
     const
     dto     = JSON.stringify({ event, data }),
-    encoded = Codec.encode(dto)
+    masked  = true,
+    encoded = Codec.encode(dto, masked)
 
     return new Promise((fulfill) =>
       this.socket.write(encoded, () =>
