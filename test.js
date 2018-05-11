@@ -1,5 +1,25 @@
 const expect = require('chai').expect
 
+describe('error tests', () =>
+{
+  it('invalid handshake error', () =>
+  {
+    const
+    ERR_INVALID_HANDSHAKE = require('./error/invalid-handshake'),
+    code = 'ERR_WEBSOCKET_HANDSHAKE_INVALID'
+    expect(new ERR_INVALID_HANDSHAKE().code).to.be.equal(code)
+  })
+
+  it('missing signature error', () =>
+  {
+    const
+    ERR_MISSING_SIGNATURE = require('./error/missing-signature'),
+    code = 'ERR_WEBSOCKET_HANDSHAKE_MISSING_SIGNATURE'
+    expect(new ERR_MISSING_SIGNATURE().code).to.be.equal(code)
+  })
+})
+
+
 describe('codec tests', () =>
 {
   const Codec = require('./codec')

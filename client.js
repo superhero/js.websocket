@@ -5,7 +5,9 @@ Debug     = require('@superhero/debug'),
 Socket    = require('net').Socket,
 Events    = require('events'),
 version   = require('./package.json').version,
-Codec     = require('./codec')
+Codec     = require('./codec'),
+ERR_INVALID_HANDSHAKE = require('./error/invalid-handshake'),
+ERR_MISSING_SIGNATURE = require('./error/missing-signature')
 
 module.exports = class
 {
@@ -92,9 +94,7 @@ module.exports = class
         else
         {
           this.log('handshake:', 'invalid:', 'signature:', signature)
-          const error = new Error('invalid websocket handshake')
-          error.code = 'ERR_WEBSOCKET_HANDSHAKE_INVALID'
-          throw error
+          throw new ERR_INVALID_HANDSHAKE
         }
 
         return true
@@ -103,9 +103,7 @@ module.exports = class
       if(!foundAcceptHeader)
       {
         this.log('handshake:', 'missing "Sec-WebSocket-Accept" header')
-        const error = new Error('missing "Sec-WebSocket-Accept" header')
-        error.code = 'ERR_WEBSOCKET_HANDSHAKE_MISSING_SIGNATURE'
-        throw error
+        throw new ERR_MISSING_SIGNATURE
       }
     })
   }
