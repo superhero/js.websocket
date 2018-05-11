@@ -17,8 +17,8 @@ module.exports = class
     const debug = new Debug({ debug:this.config.debug, prefix:'ws server:' })
 
     this.log      = debug.log.bind(debug)
-    this.events   = new Events()
-    this.server   = new Server()
+    this.events   = new Events
+    this.server   = new Server
     this.sockets  = []
 
     // ping-pong to keep the connection alive

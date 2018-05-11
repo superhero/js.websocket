@@ -23,8 +23,8 @@ module.exports = class
     const debug = new Debug({ debug:this.config.debug, prefix:'ws client:' })
 
     this.log    = debug.log.bind(debug)
-    this.events = new Events()
-    this.socket = new Socket()
+    this.events = new Events
+    this.socket = new Socket
 
     for(let event of ['close','connect','data','drain','end','lookup','ready'])
       this.socket.on(event, () => this.log(event))
