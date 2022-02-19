@@ -1,138 +1,144 @@
-// browser client version
-define(function()
+class WebSocketStream
 {
-  return function(options)
+  constructor(options)
   {
-    var
-    pid,
-    socket,
-    observers = {},
-    initQueue = [],
-    connected = false,
-    config    =
+    this.onConnectedActions = []
+    this.observers          = {}
+    this.options            = 
     {
       protocol    : 'protocol'    in options ? options.protocol    : 'ws',
       host        : 'host'        in options ? options.host        : '127.0.0.1',
-      debug       : 'debug'       in options ? options.debug       : false,
+      port        : 'port'        in options ? options.port        : 80,
+      silent      : 'silent'      in options ? options.debug       : false,
+      keepalive   : 'keepalive'   in options ? options.debug       : 25000,
       reconnect   : 'reconnect'   in options ? options.reconnect   : true,
       onClose     : 'onClose'     in options ? options.onClose     : false,
       onConnect   : 'onConnect'   in options ? options.onConnect   : false,
       onReconnect : 'onReconnect' in options ? options.onReconnect : false
+    }
+  }
 
-    },
-    debug = function(context, data)
+  connect(reconnecting = false)
+  {
+    const url = this.options.protocol + '://' + this.options.host + ':' + this.options.port
+
+    this.websocket = new WebSocket(url)
+
+    this.log('websocket instantiated', url)
+
+    this.websocket.onopen = (event) =>
     {
-      config.debug
-      && window.console
-      && window.console.log
-      && window.console.log(context, data);
-    },
-    // interface
-    face =
-    {
-      // This method works like a promise, a promise that the connection is
-      // established
-      connected: function(observer)
+      this.connected = true
+
+      this.log('websocket opened', event)
+
+      this.keepaliveInterval = setInterval(() => this.emit('ping'), this.options.keepalive)
+
+      this.log('websocket keepalive is set', Math.round(this.options.keepalive / 1e3) + 's')
+
+      reconnecting
+      ? this.options.onReconnect && this.options.onReconnect(event)
+      : this.options.onConnect   && this.options.onConnect(event)
+
+      for(const action of this.onConnectedActions)
       {
-        connected
-        ? observer(this)
-        : initQueue.push(observer);
-        return this;
-      },
-
-      emit: function(event, data)
-      {
-        var dto =
-        {
-          event : event,
-          data  : data
-        };
-        setTimeout(function()
-        {
-          face.connected(function()
-          {
-            socket.send(JSON.stringify(dto));
-            debug('emitted', dto);
-          });
-        });
-        return this;
-      },
-
-      on: function(event, observer)
-      {
-        if(!observers[event])
-          observers[event] = [];
-
-        observer instanceof Function
-        && observers[event].push(observer);
-
-        return this;
-      },
-
-      trigger: function(event, data)
-      {
-        (observers[event] || []).forEach(function(obs)
-        {
-          obs(face, data);
-        });
-      },
-
-      removeListener: function(event, listener)
-      {
-        if(!observers[event])
-          return this;
-
-        var index = observers[event].indexOf(listener);
-        ~index && observers[event].splice(index, 1);
-        debug('removed observer', listener);
-        return this;
-      },
-
-      close: function()
-      {
-        socket.close();
+        action(event)
       }
-    };
+    }
 
-    // Jump the event queue
-    setTimeout(function connect(is_reconnect)
+    this.websocket.onerror = (event) =>
     {
-      socket = new WebSocket(config.protocol + '://' + config.host);
+      this.log('websocket error', event)
+    }
 
-      socket.onopen = function(event)
-      {
-        debug('socket open', event);
-        pid = setInterval(function(){face.emit('ping')}, 25000);
+    this.websocket.onclose = (event) =>
+    {
+      this.connected = false
 
-        // this set is used for the init queue (connection promise)
-        connected = true;
+      this.log('websocket closed', event)
 
-        is_reconnect
-        ? config.onReconnect && config.onReconnect()
-        : config.onConnect   && config.onConnect();
+      clearInterval(this.keepaliveInterval)
 
-        var observer;
-        while(observer = initQueue.shift())
-          observer(face);
-      };
+      this.log('websocket keepalive interval stopped')
 
-      socket.onclose = function(event)
-      {
-        debug('socket closed', event);
-        connected = false;
-        clearInterval(pid);
-        config.onClose    && config.onClose();
-        config.reconnect  && setTimeout(connect, 100, true);
-      };
+      this.options.onClose    && this.options.onClose()
+      this.options.reconnect  && setTimeout(this.connect.bind(this), 100, true)
+    }
 
-      socket.onmessage = function(event)
-      {
-        var dto = JSON.parse(event.data);
-        debug('socket recived message', dto);
-        face.trigger(dto.event, dto.data);
-      };
-    });
+    this.websocket.onmessage = (event) =>
+    {
+      this.log('websocket message recieved', event)
 
-    return face;
-  };
-});
+      const dto = JSON.parse(event.data)
+
+      this.log('websocket parsed message data', dto)
+
+      this.trigger(dto.event, dto.data)
+
+      this.log('websocket triggered event', dto.event)
+    }
+  }
+
+  log(...args)
+  {
+    this.options.silent == false
+    && window.console
+    && window.console.log
+    && window.console.log(Date.now(), ...args)
+  }
+
+  onConnectedAction(action)
+  {
+    this.onConnectedActions.push(action)
+    this.log('websocket added an "on connected action"')
+    this.connected && action()
+  }
+
+  emit(eventname, data)
+  {
+    const dto =
+    {
+      event : eventname,
+      data  : data
+    }
+    this.websocket.send(JSON.stringify(dto))
+    this.log('websocket emitted message', dto)
+  }
+
+  on(eventname, observer)
+  {
+    if(this.observers[eventname] === undefined)
+    {
+      this.observers[eventname] = []
+    }
+    this.observers[eventname].push(observer)
+    this.log('websocket added observer', eventname)
+  }
+
+  removeObserver(eventname, observer)
+  {
+    this.log('websocket removing observer', eventname)
+    if(this.observers[eventname] === undefined)
+    {
+      return
+    }
+    const index = this.observers[eventname].indexOf(observer)
+    ~index && this.observers[eventname].splice(index, 1)
+  }
+
+  trigger(eventname, data)
+  {
+    for(const observer of this.observers[eventname] || [])
+    {
+      observer(data)
+    }
+  }
+
+  close()
+  {
+    this.options.reconnect = false
+    this.log('websocket reconnect disabled')
+    this.log('websocket requested to close connection')
+    this.websocket.close()
+  }
+}
